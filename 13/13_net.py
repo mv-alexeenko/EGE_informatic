@@ -70,24 +70,24 @@
 # Для удобства решения аналитическим способом, все таки лучше кодом давать представление
 # в двоичном виде
 from ipaddress import *
-print("--------------------- Задача 1 --------------------- ")
 # Все функции библиотеки возвращают объект формата ipaddress.IPv4Address, но они легко
 # конвертируется в другие типы
+print("--------------------- Задача 1 --------------------- ")
 ip = ip_address("135.12.171.214")  # не сложно догадаться, что мы хотим получить
 mask = ip_address("255.255.248.0")  # маску тоже можем преобразовать
-print(*[f"{ip:b}"[i - 8:i] for i in range(8, 33, 8)], sep=".")  # Обратите внимание, что
+print("IP   ", *[f"{ip:b}"[i - 8:i] for i in range(8, 33, 8)], sep=".")  # Обратите внимание, что
 # в форматированную строку был передан ip адрес, который был преобразован в двоичный вид с
 # автоматически добавленными слева незначащими нулями. Неудобство заключается в том, что
 # результат дается одной строкой, но при помощи списочного выражения и срезов, создадим
 # список восьмиразрядных двоичных чисел.
-print(*[f"{mask:b}"[i - 8:i] for i in range(8, 33, 8)], sep=".")
-print(*["________" for i in range(4)], sep=".")
+print("Mask ", *[f"{mask:b}"[i - 8:i] for i in range(8, 33, 8)], sep=".")
+print("IPnet", *["________" for i in range(4)], sep=".")
 
 # Программное решение
 # from ipaddress import *
 ip = ip_address("135.12.171.214")
 mask = ip_address("255.255.248.0")
-net = ip_network(f"{ip}/{mask}", 0)  # для нахождения адреса сети используем функцию
+net = ip_network(f"{ip}/{mask}", False)  # для нахождения адреса сети используем функцию
 # ip_network(), хотя её основное предназначение просто генерация адреса сети в виде
 # объекта и в нее изначально нужно подавать сам адрес, но у функции есть дополнительный
 # функционал (активируется при помощи аргумента - 0) в виде нестрогого режима, который
@@ -113,16 +113,16 @@ print("--------------------- Задача 2 --------------------- ")
 # Аналитическое решение
 ip = ip_address("220.128.112.142")
 net = ip_address("220.128.96.0")
-print(*[f"{ip:b}"[i - 8:i] for i in range(8, 33, 8)], sep=".")
-print(*["________" for i in range(4)], sep=".")
-print(*[f"{net:b}"[i - 8:i] for i in range(8, 33, 8)], sep=".")
+print("IP   ", *[f"{ip:b}"[i - 8:i] for i in range(8, 33, 8)], sep=".")
+print("Mask ", *["________" for i in range(4)], sep=".")
+print("IPnet", *[f"{net:b}"[i - 8:i] for i in range(8, 33, 8)], sep=".")
 
 # Программное решение
 # from ipaddress import *
 ip = ip_address("220.128.112.142")
 net = ip_address("220.128.96.0")
 for mask in range(31):
-    net_ = ip_network(f"{ip}/{mask}", 0)
+    net_ = ip_network(f"{ip}/{mask}", False)
     if (net_[0] < ip < net_[-1]) and str(net) in str(net_):  # первым выражением проверяем,
         # что IP не является адресом сети и широковещательным адресом, вторым чтобы объект
         # содержал заданную сеть
@@ -144,16 +144,16 @@ input("Нажмите любую клавишу для продолжения")
 print("--------------------- Задача 3 --------------------- ")
 ip = ip_address("111.81.208.27")
 net = ip_address("111.81.192.0")
-print(*[f"{ip:b}"[i - 8:i] for i in range(8, 33, 8)], sep=".")
-print(*["________" for i in range(4)], sep=".")
-print(*[f"{net:b}"[i - 8:i] for i in range(8, 33, 8)], sep=".")
+print("IP   ", *[f"{ip:b}"[i - 8:i] for i in range(8, 33, 8)], sep=".")
+print("Mask ", *["________" for i in range(4)], sep=".")
+print("IPnet", *[f"{net:b}"[i - 8:i] for i in range(8, 33, 8)], sep=".")
 
 # Программное решение
 # from ipaddress import *
 ip = ip_address("111.81.208.27")
 net = ip_address("111.81.192.0")
 for mask in range(33):
-    net_ = ip_network(f"{ip}/{mask}", 0)
+    net_ = ip_network(f"{ip}/{mask}", False)
     if (net_[0] < ip < net_[-1]) and str(net) in str(net_):
         print(net_, str(net_.netmask).split(".")[2])
 input("Нажмите любую клавишу для продолжения")
@@ -176,9 +176,9 @@ input("Нажмите любую клавишу для продолжения")
 print("--------------------- Задача 4 --------------------- ")
 ip = ip_address("148.195.140.28")
 net = ip_address("148.195.140.0")
-print(*[f"{ip:b}"[i - 8:i] for i in range(8, 33, 8)], sep=".")
-print(*["________" for i in range(4)], sep=".")
-print(*[f"{net:b}"[i - 8:i] for i in range(8, 33, 8)], sep=".")
+print("IP   ", *[f"{ip:b}"[i - 8:i] for i in range(8, 33, 8)], sep=".")
+print("Mask ", *["________" for i in range(4)], sep=".")
+print("IPnet", *[f"{net:b}"[i - 8:i] for i in range(8, 33, 8)], sep=".")
 
 # Программное решение
 # from ipaddress import *
@@ -186,7 +186,7 @@ ip = ip_address("148.195.140.28")
 net = ip_address("148.195.140.0")
 min_c1 = float("inf")  # положим в переменную самое большое положительное число
 for mask in range(31):
-    net_ = ip_network(f"{ip}/{mask}", 0)
+    net_ = ip_network(f"{ip}/{mask}", False)
     if (net_[0] < ip < net_[-1]) and str(net) in str(net_):
         if mask < min_c1:
             min_c1 = mask
@@ -209,9 +209,9 @@ input("Нажмите любую клавишу для продолжения")
 print("--------------------- Задача 5 --------------------- ")
 ip = ip_address("241.185.253.57")
 net = ip_address("241.185.252.0")
-print(*[f"{ip:b}"[i - 8:i] for i in range(8, 33, 8)], sep=".")
-print(*["________" for i in range(4)], sep=".")
-print(*[f"{net:b}"[i - 8:i] for i in range(8, 33, 8)], sep=".")
+print("IP   ", *[f"{ip:b}"[i - 8:i] for i in range(8, 33, 8)], sep=".")
+print("Mask ", *["________" for i in range(4)], sep=".")
+print("IPnet", *[f"{net:b}"[i - 8:i] for i in range(8, 33, 8)], sep=".")
 
 # Программное решение
 # from ipaddress import *
@@ -219,7 +219,7 @@ ip = ip_address("241.185.253.57")
 net = ip_address("241.185.252.0")
 min_c0 = float("inf")
 for mask in range(31):
-    net_ = ip_network(f"{ip}/{mask}", 0)
+    net_ = ip_network(f"{ip}/{mask}", False)
     c0 = 32 - mask  # 32 - это количество возможных нулей
     if (net_[0] < ip < net_[-1]) and str(net) in str(net_):
         if c0 < min_c0:
@@ -243,9 +243,9 @@ input("Нажмите любую клавишу для продолжения")
 print("--------------------- Задача 6 --------------------- ")
 ip = ip_address("76.155.48.2")
 net = ip_address("76.155.48.0")
-print(*[f"{ip:b}"[i - 8:i] for i in range(8, 33, 8)], sep=".")
-print(*["________" for i in range(4)], sep=".")
-print(*[f"{net:b}"[i - 8:i] for i in range(8, 33, 8)], sep=".")
+print("IP   ", *[f"{ip:b}"[i - 8:i] for i in range(8, 33, 8)], sep=".")
+print("Mask ", *["________" for i in range(4)], sep=".")
+print("IPnet", *[f"{net:b}"[i - 8:i] for i in range(8, 33, 8)], sep=".")
 
 # Программное решение
 # from ipaddress import *
@@ -254,7 +254,7 @@ net = ip_address("76.155.48.0")
 msk_ = []
 msk = 0
 for mask in range(31):
-    net_ = ip_network(f"{ip}/{mask}", 0)
+    net_ = ip_network(f"{ip}/{mask}", False)
     if (net_[0] < ip < net_[-1]) and str(net) in str(net_):
         msk_ += [mask]
         msk += 1
@@ -278,9 +278,9 @@ input("Нажмите любую клавишу для продолжения")
 print("--------------------- Задача 7 --------------------- ")
 ip = ip_address("112.117.107.70")
 ip2 = ip_address("112.117.121.80")
-print(*[f"{ip:b}"[i - 8:i] for i in range(8, 33, 8)], sep=".")
-print(*["________" for i in range(4)], sep=".")
-print(*[f"{ip2:b}"[i - 8:i] for i in range(8, 33, 8)], sep=".")
+print("IP   ", *[f"{ip:b}"[i - 8:i] for i in range(8, 33, 8)], sep=".")
+print("IP2  ", *[f"{ip2:b}"[i - 8:i] for i in range(8, 33, 8)], sep=".")
+print("Mask ", *["________" for i in range(4)], sep=".")
 
 # Программное решение
 # from ipaddress import *
@@ -288,8 +288,8 @@ ip = ip_address("112.117.107.70")
 ip2 = ip_address("112.117.121.80")
 msk = []
 for mask in range(31):
-    net = ip_network(f"{ip}/{mask}", 0)
-    net2 = ip_network(f"{ip2}/{mask}", 0)
+    net = ip_network(f"{ip}/{mask}", False)
+    net2 = ip_network(f"{ip2}/{mask}", False)
     if net != net2:
         continue
     msk += [int(str(net.netmask).split(".")[2])]
@@ -312,9 +312,9 @@ input("Нажмите любую клавишу для продолжения")
 print("--------------------- Задача 8 --------------------- ")
 ip = ip_address("157.127.182.76")
 ip2 = ip_address("157.127.190.80")
-print(*[f"{ip:b}"[i - 8:i] for i in range(8, 33, 8)], sep=".")
-print(*["________" for i in range(4)], sep=".")
-print(*[f"{ip2:b}"[i - 8:i] for i in range(8, 33, 8)], sep=".")
+print("IP   ", *[f"{ip:b}"[i - 8:i] for i in range(8, 33, 8)], sep=".")
+print("IP2  ", *[f"{ip2:b}"[i - 8:i] for i in range(8, 33, 8)], sep=".")
+print("Mask ", *["________" for i in range(4)], sep=".")
 
 # Программное решение
 # from ipaddress import *
@@ -322,8 +322,8 @@ ip = ip_address("157.127.182.76")
 ip2 = ip_address("157.127.190.80")
 msk = []
 for mask in range(31):
-    net = ip_network(f"{ip}/{mask}", 0)
-    net2 = ip_network(f"{ip2}/{mask}", 0)
+    net = ip_network(f"{ip}/{mask}", False)
+    net2 = ip_network(f"{ip2}/{mask}", False)
     if net == net2:
         continue
     msk += [mask]
@@ -347,8 +347,8 @@ input("Нажмите любую клавишу для продолжения")
 # Аналитическое решение
 print("--------------------- Задача 9 --------------------- ")
 mask = ip_address("255.255.254.0")
-print(*[f"{mask:b}"[i - 8:i] for i in range(8, 33, 8)], sep=".")
-print(*["________" for i in range(4)], sep=".")
+print("Mask ", *[f"{mask:b}"[i - 8:i] for i in range(8, 33, 8)], sep=".")
+print("IPnet", *["________" for i in range(4)], sep=".")
 
 # Программное решение
 # from ipaddress import *
@@ -372,9 +372,9 @@ input("Нажмите любую клавишу для продолжения")
 print("--------------------- Задача 10 --------------------- ")
 ip = ip_address("108.133.75.91")
 net = ip_address("108.133.75.64")
-print(*[f"{ip:b}"[i - 8:i] for i in range(8, 33, 8)], sep=".")
-print(*["________" for i in range(4)], sep=".")
-print(*[f"{net:b}"[i - 8:i] for i in range(8, 33, 8)], sep=".")
+print("IP   ", *[f"{ip:b}"[i - 8:i] for i in range(8, 33, 8)], sep=".")
+print("Mask ", *["________" for i in range(4)], sep=".")
+print("IPnet", *[f"{net:b}"[i - 8:i] for i in range(8, 33, 8)], sep=".")
 
 # Программное решение
 # from ipaddress import *
@@ -382,7 +382,7 @@ ip = ip_address("108.133.75.91")
 net = ip_address("108.133.75.64")
 c_adr = []
 for mask in range(31):
-    net_ = ip_network(f"{ip}/{mask}", 0)
+    net_ = ip_network(f"{ip}/{mask}", False)
     if net_[0] < ip < net_[-1] and str(net) in str(net_):
         c_adr += [net_.num_addresses]
 print(max(c_adr))
@@ -403,9 +403,9 @@ input("Нажмите любую клавишу для продолжения")
 print("--------------------- Задача 11 --------------------- ")
 ip = ip_address("175.122.80.13")
 net = ip_address("175.122.80.0")
-print(*[f"{ip:b}"[i - 8:i] for i in range(8, 33, 8)], sep=".")
-print(*["________" for i in range(4)], sep=".")
-print(*[f"{net:b}"[i - 8:i] for i in range(8, 33, 8)], sep=".")
+print("IP   ", *[f"{ip:b}"[i - 8:i] for i in range(8, 33, 8)], sep=".")
+print("Mask ", *["________" for i in range(4)], sep=".")
+print("IPnet", *[f"{net:b}"[i - 8:i] for i in range(8, 33, 8)], sep=".")
 
 # Программное решение
 # from ipaddress import *
@@ -413,7 +413,7 @@ ip = ip_address("175.122.80.13")
 net = ip_address("175.122.80.0")
 msk = []
 for mask in range(31):
-    net_ = ip_network(f"{ip}/{mask}", 0)
+    net_ = ip_network(f"{ip}/{mask}", False)
     if (net_[0] < ip < net_[-1]) and (str(net) in str(net_)) and net_.num_addresses >= 60:
         msk += [mask]
 print(len(msk))
@@ -435,9 +435,9 @@ input("Нажмите любую клавишу для продолжения")
 print("--------------------- Задача 12 --------------------- ")
 ip = ip_address("184.178.54.144")
 mask = ip_address("255.255.255.240")
-print(*[f"{ip:b}"[i - 8:i] for i in range(8, 33, 8)], sep=".")
-print(*[f"{mask:b}"[i - 8:i] for i in range(8, 33, 8)], sep=".")
-print(*["________" for i in range(4)], sep=".")
+print("IP   ", *[f"{ip:b}"[i - 8:i] for i in range(8, 33, 8)], sep=".")
+print("Mask ", *[f"{mask:b}"[i - 8:i] for i in range(8, 33, 8)], sep=".")
+print("IPnet", *["________" for i in range(4)], sep=".")
 
 # Программное решение
 # from ipaddress import *
@@ -469,9 +469,9 @@ input("Нажмите любую клавишу для продолжения")
 print("--------------------- Задача 13 --------------------- ")
 ip = ip_address("211.48.136.64")
 mask = ip_address("255.255.255.224")
-print(*[f"{ip:b}"[i - 8:i] for i in range(8, 33, 8)], sep=".")
-print(*[f"{mask:b}"[i - 8:i] for i in range(8, 33, 8)], sep=".")
-print(*["________" for i in range(4)], sep=".")
+print("IP   ", *[f"{ip:b}"[i - 8:i] for i in range(8, 33, 8)], sep=".")
+print("Mask ", *[f"{mask:b}"[i - 8:i] for i in range(8, 33, 8)], sep=".")
+print("IPnet", *["________" for i in range(4)], sep=".")
 
 # Программное решение
 # from ipaddress import *
@@ -505,15 +505,15 @@ input("Нажмите любую клавишу для продолжения")
 print("--------------------- Задача 14 --------------------- ")
 ip = ip_address("192.168.156.235")
 mask = ip_address("255.255.255.240")
-print(*[f"{ip:b}"[i - 8:i] for i in range(8, 33, 8)], sep=".")
-print(*[f"{mask:b}"[i - 8:i] for i in range(8, 33, 8)], sep=".")
-print(*["________" for i in range(4)], sep=".")
+print("IP   ", *[f"{ip:b}"[i - 8:i] for i in range(8, 33, 8)], sep=".")
+print("Mask ", *[f"{mask:b}"[i - 8:i] for i in range(8, 33, 8)], sep=".")
+print("IPnet", *["________" for i in range(4)], sep=".")
 
 # Программное решение
 # from ipaddress import *
 ip = ip_address("192.168.156.235")
 mask = ip_address("255.255.255.240")
-net = str(ip_network(f"{ip}/{mask}", 0))
+net = str(ip_network(f"{ip}/{mask}", False))
 net = ip_address(net.split("/")[0])
 print(int(ip) - int(net))
 input("Нажмите любую клавишу для продолжения")
